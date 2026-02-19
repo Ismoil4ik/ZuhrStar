@@ -1,0 +1,168 @@
+import { createHashRouter } from 'react-router-dom'
+import RoleBasedRoute from '../components/RoleBasedRoute'
+import LoginLayout from '../layouts/LoginLayout'
+import SuperAdminLayout from '../layouts/SuperAdminLayout'
+import AdminLayout from '../layouts/AdminLayout'
+import MentorLayout from '../layouts/MentorLayout'
+import HeadMentorLayout from '../layouts/HeadMentorLayout'
+import SupportMentorLayout from '../layouts/SupportMentorLayout'
+
+import HeadMentorDashboard from '../pages/HeadMentor/Dashboard'
+import HeadMentorOquvchilar from '../pages/HeadMentor/Oquvchilar'
+import HeadMentorMentorlar from '../pages/HeadMentor/Mentorlar'
+import HeadMentorGuruhlar from '../pages/HeadMentor/Guruhlar'
+import HeadMentorKurslar from '../pages/HeadMentor/Kurslar'
+import HeadMentorHisobotlar from '../pages/HeadMentor/Hisobotlar'
+import HeadMentorSozlamalar from '../pages/HeadMentor/Sozlamalar'
+import HeadMentorJadval from '../pages/HeadMentor/JadvalniKorish'
+import HeadMentorMaterial from '../pages/HeadMentor/OquvMaterial'
+
+
+import HeadMentorMentorDetail from '../pages/HeadMentor/MentorDetail'
+
+import AdminDashboard from '../pages/Admin/Dashboard'
+import AdminOquvchilar from '../pages/Admin/Oquvchilar'
+import AdminKurslar from '../pages/Admin/Kurlsar'
+import AdminMentorlar from '../pages/Admin/Mentorlar'
+import AdminTolovlar from '../pages/Admin/Tolovlar'
+import AdminGuruhlar from '../pages/Admin/Guruhlar'
+import AdminGoogleMeet from '../pages/Admin/GoogleMeet'
+import AdminBildirishnomalar from '../pages/Admin/Bildirishnomalar'
+import AdminYigilish from '../pages/Admin/Yigilish'
+import GroupStudents from "../pages/Admin/GroupStudents";
+
+import SuperAdminDashboard from '../pages/SuperAdmin/Dashboard'
+import SuperAdminStudents from '../pages/SuperAdmin/Students'
+import SuperAdminCalendar from '../pages/SuperAdmin/Calendar'
+import SuperAdminFinance from '../pages/SuperAdmin/Finance'
+import SuperAdminEmployees from '../pages/SuperAdmin/Employees'
+import SuperAdminMarketing from '../pages/SuperAdmin/Marketing'
+import SuperAdminGroups from '../pages/SuperAdmin/Groups'
+import SuperAdminSozlamalar from '../pages/SuperAdmin/Sozlamalar'
+
+import MentorDashboard from '../pages/Mentor/Dashboard'
+import MentorOquvchilar from '../pages/Mentor/Oquvchilar'
+import MentorGuruhlar from '../pages/Mentor/Guruhlar'
+import MentorSozlamalar from '../pages/Mentor/Sozlamalar'
+import MentorGoogleMeet from '../pages/Mentor/GoogleMeet'
+import DarsJadvali from '../pages/Mentor/DarsJadvali'
+
+import SupportMentorDashboard from '../pages/SupportMentor/Dashboard'
+import SupportMentorDarslar from '../pages/SupportMentor/QoshimchaDarslar'
+
+const routes = createHashRouter([
+	{
+		path: '/login',
+		element: <LoginLayout />,
+	},
+
+
+	{
+		path: '/',
+		element: <RoleBasedRoute />,
+	},
+
+	// Superadmin
+	{
+		element: <RoleBasedRoute allowedRoles={['superadmin']} />,
+		children: [
+			{
+				path: '/super-admin/',
+				element: <SuperAdminLayout />,
+				children: [
+					{ index: true, element: <SuperAdminDashboard /> },
+					{ path: 'students', element: <SuperAdminStudents /> },
+					{ path: 'calendar', element: <SuperAdminCalendar /> },
+					{ path: 'finance', element: <SuperAdminFinance /> },
+					{ path: 'employees', element: <SuperAdminEmployees /> },
+					{ path: 'marketing', element: <SuperAdminMarketing /> },
+					{ path: 'groups', element: <SuperAdminGroups /> },
+					{ path: 'sozlamalar', element: <SuperAdminSozlamalar /> },
+				],
+			},
+		],
+	},
+
+	// Admin
+	{
+		element: <RoleBasedRoute allowedRoles={['admin']} />,
+		children: [
+			{
+				path: '/admin/',
+				element: <AdminLayout />,
+				children: [
+					{ index: true, element: <AdminDashboard /> },
+					{ path: "o'quvchilar", element: <AdminOquvchilar /> },
+					{ path: 'kurslar', element: <AdminKurslar /> },
+					{ path: 'mentorlar', element: <AdminMentorlar /> },
+					{ path: "to'lovlar", element: <AdminTolovlar /> },
+					{ path: 'guruhlar', element: <AdminGuruhlar /> },
+					{ path: 'google-meet', element: <AdminGoogleMeet /> },
+					{ path: 'bildirishnomalar', element: <AdminBildirishnomalar /> },
+					{path: `yeg'ilish`, element: <AdminYigilish/>},
+					{ path: 'guruhlar/:groupName/students', element: <GroupStudents />,}
+				],
+			},
+		],
+	},
+
+	// Head Mentor
+	{
+		element: <RoleBasedRoute allowedRoles={['headmentor']} />,
+		children: [
+			{
+				path: '/head-mentor/',
+				element: <HeadMentorLayout />,
+				children: [
+					{ index: true, element: <HeadMentorDashboard /> },
+					{ path: "o'quvchilar", element: <HeadMentorOquvchilar /> },
+					{ path: 'mentorlar', element: <HeadMentorMentorlar /> },
+					{ path: 'kurslar', element: <HeadMentorKurslar /> },
+					// 👇 NEW: detail page (selected mentor)
+					{ path: 'mentorlar/:id', element: <HeadMentorMentorDetail /> },
+					{ path: 'material', element: <HeadMentorMaterial /> },
+					{ path: 'guruhlar', element: <HeadMentorGuruhlar /> },
+					{ path: 'jadval', element: <HeadMentorJadval /> },
+					{ path: 'hisobotlar', element: <HeadMentorHisobotlar /> },
+					{ path: 'sozlamalar', element: <HeadMentorSozlamalar /> },
+				],
+			},
+		],
+	},
+
+	// Mentor
+	{
+		element: <RoleBasedRoute allowedRoles={['mentor']} />,
+		children: [
+			{
+				path: '/mentor/',
+				element: <MentorLayout />,
+				children: [
+					{ index: true, element: <MentorDashboard /> },
+					{ path: "o'quvchilar", element: <MentorOquvchilar /> },
+					{ path: 'guruhlar', element: <MentorGuruhlar /> },
+					{ path: 'guruhlar/dars-jadvali', element: <DarsJadvali /> },
+					{ path: 'sozlamalar', element: <MentorSozlamalar /> },
+					{ path: 'google-meet', element: <MentorGoogleMeet /> },
+				],
+			},
+		],
+	},
+
+	// Support Mentor
+	{
+		element: <RoleBasedRoute allowedRoles={['supportteacher']} />,
+		children: [
+			{
+				path: '/support-mentor/',
+				element: <SupportMentorLayout />,
+				children: [
+					{ index: true, element: <SupportMentorDashboard /> },
+					{ path: 'darslar', element: <SupportMentorDarslar /> },
+				],
+			},
+		],
+	},
+])
+
+export default routes
